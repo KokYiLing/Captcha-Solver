@@ -1,8 +1,10 @@
 """
 CAPTCHA Solver using Exact Template Matching
 """
-import numpy as np
 import os
+import argparse
+
+import numpy as np
 import matplotlib.pyplot as plt
 
 class Captcha(object):
@@ -208,11 +210,17 @@ class Captcha(object):
 
 # Usage example
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CAPTCHA Solver")
+    parser.add_argument("--training_dir", required=True, help="Path to the training directory")
+    parser.add_argument("--input_path", required=True, help="Path to the input CAPTCHA file")
+    parser.add_argument("--output_path", required=True, help="Path to save the solved CAPTCHA result")
+    args = parser.parse_args()
+
     # Train the solver
-    solver = Captcha(training_dir='sampleCaptchas/training')
+    solver = Captcha(training_dir=args.training_dir)
     
     # Test on a file
     result = solver(
-        im_path='./sampleCaptchas/input/input06.txt',
-        save_path='./output06.txt'
+        im_path=args.input_path,
+        save_path=args.output_path
     )

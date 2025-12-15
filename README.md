@@ -61,6 +61,11 @@ result = solver(
    im_path='sampleCaptchas/input/input00.txt',
    save_path='output00.txt'
 )
+# OR
+result = solver(
+   im_path='sampleCaptchas/input/input01.jpg',
+   save_path='output01.txt'
+)
 ```
 
 ## Problem Framing

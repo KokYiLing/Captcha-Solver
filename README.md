@@ -13,7 +13,7 @@ This project implements a CAPTCHA Solver using Exact Template Matching. The solv
 
 1. **Clone the repository** (or download the project):
 ```bash
-git clone <repository-url>
+git clone https://github.com/KokYiLing/Captcha-Solver.git
 cd Captcha-Solver
 ```
 

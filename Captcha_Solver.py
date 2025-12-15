@@ -6,6 +6,7 @@ import argparse
 
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 class Captcha(object):
     def __init__(self, training_dir=None, threshold=100):
@@ -24,24 +25,31 @@ class Captcha(object):
     
     def _load_image(self, path):
         """
-        Load image from text file format
-        
+        Load image from text file or .jpg format.
+
         Args:
-            path: Path to .txt file
-            
+            path: Path to .txt or .jpg file
+
         Returns:
             numpy array (height, width) grayscale
         """
         try:
-            with open(path, 'r') as f:
-                h, w = map(int, f.readline().strip().split())
-                
-                img = np.zeros((h, w), dtype=np.uint8)
-                for r in range(h):
-                    row = f.readline().strip().split()
-                    for c, pixel in enumerate(row):
-                        img[r, c] = int(pixel.split(',')[0])  # Use R channel as grayscale
-            return img
+            if path.endswith('.txt'):
+                # For .txt files
+                with open(path, 'r') as f:
+                    h, w = map(int, f.readline().strip().split())
+                    img = np.zeros((h, w), dtype=np.uint8)
+                    for r in range(h):
+                        row = f.readline().strip().split()
+                        for c, pixel in enumerate(row):
+                            img[r, c] = int(pixel.split(',')[0])  # Use R channel as grayscale
+                return img
+            elif path.endswith(('.jpg', '.png')):
+                # For .jpg or .png files
+                img = Image.open(path).convert("L")  # Convert to grayscale
+                return np.array(img)
+            else:
+                raise ValueError("Unsupported file format. Only .txt, .jpg, and .png are supported.")
         except Exception as e:
             raise ValueError(f"Error loading image from {path}: {e}")
     
